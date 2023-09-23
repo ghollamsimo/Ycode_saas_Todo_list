@@ -9,6 +9,7 @@ struct Task {
     char status[30];    // "To do", "In progress", "Done"
 };
 
+// Bonus
 struct Collaborator {
     int id;
     char firstName[50];
@@ -27,13 +28,22 @@ void menu(){
         printf("|\t5. Supprimer une tache par identifiant        |\n");
         printf("|\t6. Rechercher les Taches                      |\n");
         printf("|\t7. Statistiques                               |\n");
-        printf("|\t--------------Bonus -----------------                               |\n");
+        printf("|\t--------------Bonus -----------------              |\n");
         printf("|\t8.Ajouter des collaborateurs                           |\n");
         printf("|\t9. Quiter                                    |\n");
         printf("|=====================================================|\n \n");
         printf("Enter Your choice: ");
 }
+int isValidDeadline(const char deadline[]) {
+    if (strlen(deadline) != 10) {
+        return 0;
+    }
 
+    // Check the hyphens are in the correct positions
+    if (deadline[4] != '-' || deadline[7] != '-') {
+        return 0;
+    }
+}
 
 int addSingleTask(struct Task tasks[], int count){
     struct Task newTask;
@@ -41,13 +51,17 @@ int addSingleTask(struct Task tasks[], int count){
     newTask.id = count + 1;
 
     printf("Enter the title of the task: ");
-    scanf(" %[^\n]", newTask.title);// i use [^\n] for newlines ans spaces
+    scanf(" %[^\n]", newTask.title);// i use [^\n] for newlines and spaces
 
     printf("Enter the description of the task: ");
     scanf(" %[^\n]", newTask.description);
 
     printf("Enter the deadline of the task (YYYY-MM-DD): ");
     scanf("%s", newTask.deadline);
+    while(isValidDeadline(newTask.deadline) == 0){
+        printf("Enter the deadline of the task (YYYY-MM-DD): ");
+        scanf("%s", newTask.deadline);
+    }
 
     printf("Enter the status of the task (To do/In progress/Done): ");
     scanf(" %[^\n]", newTask.status);
@@ -88,17 +102,13 @@ int addMultipleTasks(struct Task tasks[], int count) {
     scanf("%d", &numTasks);
 
     for (int i = 0; i < numTasks; i++) {
-        struct Task newTask;
-
-        // Clear the input buffer before reading a new line
-        while (getchar() != '\n');
         printf("Adding task %d:\n", i+1);
         count = addSingleTask(tasks, count);
     }
     return count;
 
 }
-
+//Tri par selection (je compare la case i avec la case i+1)
 void sortTasksWithAlphabe(struct Task tasks[], int count) {
     struct Task temp;
     for (int i = 0; i < count - 1; i++) {
@@ -138,6 +148,11 @@ void searchMenu() {
     printf("Enter Your choice for search: ");
 }
 
+/*
+1. first i get the id entered by the user (id task)
+2. i use the loop for to find the task entred by the user (compare the id of tasks with the enreted one)
+3. i print the information of the finded task
+*/
 void searchTasks(struct Task tasks[], int count) {
     int searchChoice, idToSearch;
     char titleToSearch[50];
@@ -186,7 +201,7 @@ void searchTasks(struct Task tasks[], int count) {
             printf("Invalid choice for search.\n");
     }
 }
-
+//TRI PAR SELECTION
 void sortTasksByDeadline(struct Task tasks[], int count) {
     struct Task temp;
     for (int i = 0; i < count - 1; i++) {
@@ -234,7 +249,7 @@ void modifyTask(struct Task tasks[], int count) {
         }
     }
 
-    if (!found) {
+    if (found==0) {
         printf("Task with the given ID not found.\n");
     }
 }
@@ -290,7 +305,7 @@ int deleteTaskById(struct Task tasks[], int count, int id) {
     printf("Task deleted successfully!\n");
     return count;
 }
-
+//bonus
 int createMultipleCollaborators(struct Collaborator collaborators[], int count) {
     int numCollaborators;
     printf("How many collaborators would you like to add? ");
@@ -367,6 +382,9 @@ int main() {
                 collaboratorsCount = createMultipleCollaborators(collaborators, collaboratorsCount);
                 displayCollaborators(collaborators, collaboratorsCount);
                 break;
+            case 9:
+                printf("Have A Good Day");
+                return 0;
         }
     }
 }
