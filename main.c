@@ -5,7 +5,7 @@ struct Task {
     int  id;
     char title[50];
     char description[100];
-    char deadline[11];  // Format: "YYYY-MM-DD"
+    char deadline[11];  // Format: "YYYY/MM/DD"
     char status[30];    // "To do", "In progress", "Done"
 };
 
@@ -20,27 +20,25 @@ struct Collaborator {
 
 
 void menu(){
-        printf("|===================|Todo List App|===================|\n");
-        printf("|\t1. Ajouter une seule nouvelle tache           |\n");
-        printf("|\t2. Ajouter plusieurs nouvelles taches         |\n");
-        printf("|\t3. Afficher la liste de toutes les taches     |\n");
-        printf("|\t4. Modifier une tache                         |\n");
-        printf("|\t5. Supprimer une tache par identifiant        |\n");
-        printf("|\t6. Rechercher les Taches                      |\n");
-        printf("|\t7. Statistiques                               |\n");
-        printf("|\t--------------Bonus -----------------              |\n");
-        printf("|\t8.Ajouter des collaborateurs                           |\n");
-        printf("|\t9. Quiter                                    |\n");
-        printf("|=====================================================|\n \n");
+        printf("\t|===================|Todo List App|===================|\n");
+        printf("\t|\t1. Add New Single Task                        |\n");
+        printf("\t|\t2. Add New Multiple Tasks                     |\n");
+        printf("\t|\t3. Display All The Tasks                      |\n");
+        printf("\t|\t4. Edit A Task                                |\n");
+        printf("\t|\t5. Delete a Task By Identifier                |\n");
+        printf("\t|\t6. Search For Tasks                           |\n");
+        printf("\t|\t7. Statistiques                               |\n");
+        printf("\t|\t8. Add Collaborators                          |\n");
+        printf("\t|\t9. Exit                                       |\n");
+        printf("\t|=====================================================|\n \n");
         printf("Enter Your choice: ");
 }
 int isValidDeadline(const char deadline[]) {
     if (strlen(deadline) != 10) {
         return 0;
     }
-
     // Check the hyphens are in the correct positions
-    if (deadline[4] != '-' || deadline[7] != '-') {
+    if (deadline[4] != '/' || deadline[7] != '/') {
         return 0;
     }
 }
@@ -56,10 +54,10 @@ int addSingleTask(struct Task tasks[], int count){
     printf("Enter the description of the task: ");
     scanf(" %[^\n]", newTask.description);
 
-    printf("Enter the deadline of the task (YYYY-MM-DD): ");
+    printf("Enter the deadline of the task (YYYY/MM/DD): ");
     scanf("%s", newTask.deadline);
     while(isValidDeadline(newTask.deadline) == 0){
-        printf("Enter the deadline of the task (YYYY-MM-DD): ");
+        printf("Enter the deadline of the task (YYYY/MM/DD): ");
         scanf("%s", newTask.deadline);
     }
 
@@ -87,7 +85,7 @@ void displayTasks(struct Task tasks[], int count) {
 
 void displayCollaborators(struct Collaborator collaborator[], int count) {
     printf("\n--- All Collaborators ---\n");
-    for (int i = 0; i <count; i++) {
+    for (int i = 0; i < count; i++) {
         printf("ID: %d\n", collaborator[i].id);
         printf("LastName: %s\n", collaborator[i].lastName);
         printf("FirstName: %s\n", collaborator[i].firstName);
@@ -98,7 +96,7 @@ void displayCollaborators(struct Collaborator collaborator[], int count) {
 
 int addMultipleTasks(struct Task tasks[], int count) {
     int numTasks;
-    printf("How many tasks would you like to add? ");
+    printf("How many tasks would you like to add: ");
     scanf("%d", &numTasks);
 
     for (int i = 0; i < numTasks; i++) {
@@ -123,28 +121,28 @@ void sortTasksWithAlphabe(struct Task tasks[], int count) {
 }
 
 void displayMenu() {
-    printf("\n|===========|Display Options|===========|\n");
-    printf("|\t1. Afficher toutes les tâches         |\n");
-    printf("|\t2. Trier par ordre alphabétique       |\n");
-    printf("|\t3. Trier par deadline                 |\n");
-    printf("|=======================================|\n \n");
+    printf("\n\t|===========|Display Options|===========|\n");
+    printf("\t|\t1. Afficher toutes les taches   |\n");
+    printf("\t|\t2. Trier par ordre alphabetique |\n");
+    printf("\t|\t3. Trier par deadline           |\n");
+    printf("\t|=======================================|\n \n");
     printf("Enter Your choice for display: ");
 }
 
 void modifyMenu() {
-    printf("\n|===========|Modify Options|===========|\n");
-    printf("|\t1. Modifier la description             |\n");
-    printf("|\t2. Modifier le statut                   |\n");
-    printf("|\t3. Modifier le deadline                 |\n");
-    printf("|=======================================|\n \n");
+    printf("\n\t|===========|Modify Options|===========|\n");
+    printf("\t|\t1. Modifier la description     |\n");
+    printf("\t|\t2. Modifier le statut          |\n");
+    printf("\t|\t3. Modifier le deadline        |\n");
+    printf("\t|=======================================|\n \n");
     printf("Enter Your choice for modification: ");
 }
 
 void searchMenu() {
-    printf("\n|===========|Search Options|===========|\n");
-    printf("|\t1. Rechercher par Identifiant          |\n");
-    printf("|\t2. Rechercher par Titre                |\n");
-    printf("|=======================================|\n \n");
+    printf("\n\t|===========|Search Options|===========|\n");
+    printf("\t|\t1. Rechercher par Identifiant     |\n");
+    printf("\t|\t2. Rechercher par Titre           |\n");
+    printf("\t|=======================================|\n \n");
     printf("Enter Your choice for search: ");
 }
 
@@ -220,7 +218,7 @@ void modifyTask(struct Task tasks[], int count) {
     printf("Enter the ID of the task to modify: ");
     scanf("%d", &idToModify);
 
-    // Trouver la tâche avec l'ID donné
+    // Trouver la taSche avec l'ID donné
     int found = 0;
     for (int i = 0; i < count; i++) {
         if (tasks[i].id == idToModify) {
@@ -276,7 +274,7 @@ void displayStatistics(struct Task tasks[], int count) {
 
 int deleteTaskById(struct Task tasks[], int count, int id) {
     int index = -1;
-    // Trouver l'index de la tâche avec l'ID donné
+    // Trouver l'index de la tâche avec l'ID donne
     for (int i = 0; i < count; i++) {
         if (tasks[i].id == id) {
             index = i;
@@ -289,17 +287,17 @@ int deleteTaskById(struct Task tasks[], int count, int id) {
         return count;
     }
 
-    // Déplacer toutes les tâches suivantes une position vers l'arrière
+    // Déplacer toutes les taches suivantes une position vers l'arriere
     for (int i = index; i < count - 1; i++) {
         tasks[i] = tasks[i + 1];
     }
 
-    // Mettre à jour les ID des tâches restantes
+    // Mettre a jour les ID des taches restantes
     for (int i = index; i < count - 1; i++) {
         tasks[i].id = i + 1;
     }
 
-    // Réduire le nombre de tâches
+    // Reduire le nombre de taches
     count--;
 
     printf("Task deleted successfully!\n");
@@ -382,6 +380,9 @@ int main() {
                 collaboratorsCount = createMultipleCollaborators(collaborators, collaboratorsCount);
                 displayCollaborators(collaborators, collaboratorsCount);
                 break;
+            default: 
+                printf("This Number Is Not In The Menu Please Reapet Your Choice\n \n");
+            break;
             case 9:
                 printf("Have A Good Day");
                 return 0;
